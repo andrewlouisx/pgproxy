@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/andrewlouisx/pgproxy/parser"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"github.com/wgliang/pgproxy/parser"
 )
 
 var (

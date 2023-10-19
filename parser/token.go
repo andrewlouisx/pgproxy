@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/wgliang/pgproxy/parser/dependency/sqltypes"
+	"github.com/andrewlouisx/pgproxy/parser/dependency/sqltypes"
 )
 
 const EOFCHAR = 0x100

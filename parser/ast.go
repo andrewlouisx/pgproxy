@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/wgliang/pgproxy/parser/dependency/sqltypes"
+	"github.com/andrewlouisx/pgproxy/parser/dependency/sqltypes"
 )
 
 // Instructions for creating new types: If a type

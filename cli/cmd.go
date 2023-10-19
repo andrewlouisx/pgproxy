@@ -13,10 +13,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/andrewlouisx/pgproxy/proxy"
 	"github.com/golang/glog"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"github.com/wgliang/pgproxy/proxy"
 )
 
 type Client struct {

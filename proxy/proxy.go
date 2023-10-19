@@ -14,8 +14,8 @@ import (
 	"io"
 	"net"
 
+	"github.com/andrewlouisx/pgproxy/parser"
 	"github.com/golang/glog"
-	"github.com/wgliang/pgproxy/parser"
 )
 
 var (

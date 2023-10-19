@@ -14,9 +14,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/andrewlouisx/pgproxy/parser"
+	"github.com/andrewlouisx/pgproxy/proxy"
 	"github.com/golang/glog"
-	"github.com/wgliang/pgproxy/parser"
-	"github.com/wgliang/pgproxy/proxy"
 )
 
 var (

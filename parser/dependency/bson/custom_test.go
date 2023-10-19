@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/wgliang/pgproxy/parser/dependency/bytes2"
+	"github.com/andrewlouisx/pgproxy/parser/dependency/bytes2"
 )
 
 const (
@@ -94,22 +94,24 @@ const (
 	bsonStringArray = "\x1f\x00\x00\x00\x050\x00\x05\x00\x00\x00\x00test1\x051\x00\x05\x00\x00\x00\x00test2\x00"
 )
 
-func stringDecoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeString(buf, kind) }
-func binaryDecoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeBinary(buf, kind) }
-func int64Decoder(buf *bytes.Buffer, kind byte) interface{}       { return DecodeInt64(buf, kind) }
-func int32Decoder(buf *bytes.Buffer, kind byte) interface{}       { return DecodeInt32(buf, kind) }
-func intDecoder(buf *bytes.Buffer, kind byte) interface{}         { return DecodeInt(buf, kind) }
-func uint64Decoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeUint64(buf, kind) }
-func uint32Decoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeUint32(buf, kind) }
-func uintDecoder(buf *bytes.Buffer, kind byte) interface{}        { return DecodeUint(buf, kind) }
-func float64Decoder(buf *bytes.Buffer, kind byte) interface{}     { return DecodeFloat64(buf, kind) }
-func boolDecoder(buf *bytes.Buffer, kind byte) interface{}        { return DecodeBool(buf, kind) }
-func timeDecoder(buf *bytes.Buffer, kind byte) interface{}        { return DecodeTime(buf, kind) }
-func interfaceDecoder(buf *bytes.Buffer, kind byte) interface{}   { return DecodeInterface(buf, kind) }
-func mapDecoder(buf *bytes.Buffer, kind byte) interface{}         { return DecodeMap(buf, kind) }
-func arrayDecoder(buf *bytes.Buffer, kind byte) interface{}       { return DecodeArray(buf, kind) }
-func skipDecoder(buf *bytes.Buffer, kind byte) interface{}        { Skip(buf, kind); return nil }
-func stringArrayDecoder(buf *bytes.Buffer, kind byte) interface{} { return DecodeStringArray(buf, kind) }
+func stringDecoder(buf *bytes.Buffer, kind byte) interface{}    { return DecodeString(buf, kind) }
+func binaryDecoder(buf *bytes.Buffer, kind byte) interface{}    { return DecodeBinary(buf, kind) }
+func int64Decoder(buf *bytes.Buffer, kind byte) interface{}     { return DecodeInt64(buf, kind) }
+func int32Decoder(buf *bytes.Buffer, kind byte) interface{}     { return DecodeInt32(buf, kind) }
+func intDecoder(buf *bytes.Buffer, kind byte) interface{}       { return DecodeInt(buf, kind) }
+func uint64Decoder(buf *bytes.Buffer, kind byte) interface{}    { return DecodeUint64(buf, kind) }
+func uint32Decoder(buf *bytes.Buffer, kind byte) interface{}    { return DecodeUint32(buf, kind) }
+func uintDecoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeUint(buf, kind) }
+func float64Decoder(buf *bytes.Buffer, kind byte) interface{}   { return DecodeFloat64(buf, kind) }
+func boolDecoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeBool(buf, kind) }
+func timeDecoder(buf *bytes.Buffer, kind byte) interface{}      { return DecodeTime(buf, kind) }
+func interfaceDecoder(buf *bytes.Buffer, kind byte) interface{} { return DecodeInterface(buf, kind) }
+func mapDecoder(buf *bytes.Buffer, kind byte) interface{}       { return DecodeMap(buf, kind) }
+func arrayDecoder(buf *bytes.Buffer, kind byte) interface{}     { return DecodeArray(buf, kind) }
+func skipDecoder(buf *bytes.Buffer, kind byte) interface{}      { Skip(buf, kind); return nil }
+func stringArrayDecoder(buf *bytes.Buffer, kind byte) interface{} {
+	return DecodeStringArray(buf, kind)
+}
 
 var customUnmarshalCases = []struct {
 	desc    string
