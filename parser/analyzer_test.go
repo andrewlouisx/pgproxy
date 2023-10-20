@@ -4,9 +4,10 @@ Tests for analyzer.go
 package parser
 
 import (
-	"fmt"
-	"github.com/stretchr/testify/assert"
+	// "fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPrimaryKey(t *testing.T) {

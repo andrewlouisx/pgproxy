@@ -123,7 +123,7 @@ func (p *Proxy) service(filterCallback, returnCallBack parser.Callback) {
 	defer p.rconn.Close()
 	// proxying data
 	go p.handleIncomingConnection(p.lconn, p.rconn, filterCallback)
-	go p.handleResponseConnection(p.rconn, p.lconn, returnCallBack)
+	go p.handleResponseConnection(p.rconn, p.lconn)
 	// wait for close...
 	<-p.errsig
 }
@@ -149,7 +149,7 @@ func (p *Proxy) handleIncomingConnection(src, dst *net.TCPConn, Callback parser.
 			return
 		}
 
-		n, err = dst.Write(b)
+		_, err = dst.Write(b)
 		if err != nil {
 			p.err("Write failed '%s'\n", err)
 			return
@@ -158,7 +158,7 @@ func (p *Proxy) handleIncomingConnection(src, dst *net.TCPConn, Callback parser.
 }
 
 // Proxy.handleResponseConnection
-func (p *Proxy) handleResponseConnection(src, dst *net.TCPConn, Callback parser.Callback) {
+func (p *Proxy) handleResponseConnection(src, dst *net.TCPConn) {
 	// directional copy (64k buffer)
 	buff := make([]byte, 0xffff)
 
@@ -168,9 +168,8 @@ func (p *Proxy) handleResponseConnection(src, dst *net.TCPConn, Callback parser.
 			p.err("Read failed '%s'\n", err)
 			return
 		}
-		b := setResponseBuffer(p.erred, buff[:n], Callback)
 
-		n, err = dst.Write(b)
+		_, err = dst.Write(buff[:n])
 		if err != nil {
 			p.err("Write failed '%s'\n", err)
 			return
@@ -187,15 +186,4 @@ func getModifiedBuffer(buffer []byte, filterCallback parser.Callback) (b []byte,
 	}
 
 	return buffer, nil
-}
-
-// ResponseBuffer when is local and will call returnCallback function
-func setResponseBuffer(iserr bool, buffer []byte, filterCallback parser.Callback) (b []byte) {
-	if len(buffer) > 0 && string(buffer[0]) == "Q" {
-		if !filterCallback(buffer) {
-			return nil
-		}
-	}
-
-	return buffer
 }
