@@ -12,20 +12,6 @@ import (
 	"github.com/golang/glog"
 )
 
-// Callback function from proxy to postgresql for rewrite
-// request or sql.
-type Callback func(get []byte) bool
-
-// Extracte sql statement from string
-func Extracte(str []byte) string {
-	return string(str)[5:]
-}
-
-// ReWrite SQL test
-func ReWriteSQL(str []byte) []byte {
-	return append(str[0:5], []byte(strings.Replace(Extracte(str), "20", "10", -1))...)
-}
-
 // GetQueryModificada calllback
 func GetQueryModificada(queryOriginal string) string {
 	if queryOriginal[:5] != "power" {
@@ -36,8 +22,8 @@ func GetQueryModificada(queryOriginal string) string {
 }
 
 func Filter(str []byte) bool {
-	sql := Extracte(str)
-	tree, err := Parse(sql)
+	//sql := Extracte(str)
+	tree, err := Parse(string(str))
 	if err != nil {
 		glog.Errorln(err)
 		return false

@@ -25,15 +25,19 @@ func main() {
 	proxy.Start(
 		"localhost:5433",
 		"localhost:5432",
-		parseRequest,
+		loggingHandler,
 	)
 }
 
-func parseRequest(input []byte) bool {
-	statement, err := parser.Parse(parser.Extracte(input))
+func loggingHandler(input []byte) ([]byte, error) {
+	statement, err := parser.Parse(string(input))
 	if err != nil {
 		fmt.Println(err)
+		return nil, err
 	}
-	println("request", statement)
-	return true
+
+	// TODO: How to walk / modify the AST?
+
+	println("request", parser.String(statement))
+	return input, nil
 }
