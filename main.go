@@ -26,7 +26,6 @@ func main() {
 		"localhost:5433",
 		"localhost:5432",
 		parseRequest,
-		parseResponse,
 	)
 }
 
@@ -36,14 +35,5 @@ func parseRequest(input []byte) bool {
 		fmt.Println(err)
 	}
 	println("request", statement)
-	return true
-}
-
-func parseResponse(input []byte) bool {
-	statement, err := parser.Parse(parser.Extracte(input))
-	if err != nil {
-		fmt.Println(err)
-	}
-	println("response", statement)
 	return true
 }

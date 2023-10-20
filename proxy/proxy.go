@@ -25,7 +25,7 @@ var (
 // Start proxy server needed receive  and proxyHost, all
 // the request or database's sql of receive will redirect
 // to remoteHost.
-func Start(proxyHost, remoteHost string, filterCallback, returnCallBack parser.Callback) {
+func Start(proxyHost, remoteHost string, filterCallback parser.Callback) {
 	defer glog.Flush()
 	glog.Infof("Proxying from %v to %v\n", proxyHost, remoteHost)
 
@@ -50,7 +50,7 @@ func Start(proxyHost, remoteHost string, filterCallback, returnCallBack parser.C
 			prefix: fmt.Sprintf("Connection #%03d ", connid),
 			connId: connid,
 		}
-		go p.service(filterCallback, returnCallBack)
+		go p.service(filterCallback)
 	}
 }
 
@@ -111,7 +111,7 @@ func (p *Proxy) err(s string, err error) {
 }
 
 // Proxy.service open connection to remote and service proxying data.
-func (p *Proxy) service(filterCallback, returnCallBack parser.Callback) {
+func (p *Proxy) service(filterCallback parser.Callback) {
 	defer p.lconn.Close()
 	// connect to remote server
 	rconn, err := net.DialTCP("tcp", nil, p.raddr)
