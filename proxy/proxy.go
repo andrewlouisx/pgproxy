@@ -140,6 +140,7 @@ func (p *Proxy) handleIncomingConnection(src, dst *net.TCPConn, customHandler Ha
 			p.err("Read failed '%s'\n", err)
 			return
 		}
+
 		b, err := handleQuery(buff[:n], customHandler)
 		if err != nil {
 			p.err("%s\n", err)
@@ -182,7 +183,6 @@ func (p *Proxy) handleResponseConnection(src, dst *net.TCPConn) {
 // see https://www.postgresql.org/docs/13/protocol-message-formats.html
 func handleQuery(input []byte, requestHandler Handler) ([]byte, error) {
 	if len(input) > 0 && string(input[0]) == "Q" {
-
 		// TODO: ";", "0" characters should be handled idiomatically
 
 		// first 4 are metadata
