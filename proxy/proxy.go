@@ -200,6 +200,10 @@ func handleQuery(input []byte, requestHandler Handler) ([]byte, error) {
 
 		result := concat(input[0:5], data, lastTwoBytes)
 
+		// update the checksum, because we may have modified
+		// the query
+		result[4] = byte(len(result) - 1)
+
 		return result, nil
 	}
 

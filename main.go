@@ -16,6 +16,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/andrewlouisx/pgproxy/parser"
@@ -46,13 +47,21 @@ func loggingHandler(input []byte) ([]byte, error) {
 
 	// convert byte slice to string
 	rawQuery := string(input)
-	metadata, err := getQueryMetadata(rawQuery)
+
+	// if string contains users -- make it
+	// orgs
+	if strings.Contains(rawQuery, "users") {
+		rawQuery = strings.Replace(rawQuery, "users", "orgs", -1)
+	}
+
+	stmt, err := parser.Parse(rawQuery)
 	if err != nil {
+		log.Fatalln(err)
 		return nil, err
 	}
 
-	fmt.Println("metadata", *metadata)
-	return input, nil
+	// build statement
+	return []byte(parser.String(stmt)), nil
 }
 
 func getQueryMetadata(input string) (*Metadata, error) {
