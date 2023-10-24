@@ -37,6 +37,8 @@ type Metadata struct {
 }
 
 func loggingHandler(input []byte) ([]byte, error) {
+	fmt.Println("invoked")
+
 	statement, err := parser.Parse(string(input))
 	if err != nil {
 		fmt.Println(err)
@@ -48,11 +50,13 @@ func loggingHandler(input []byte) ([]byte, error) {
 	// convert byte slice to string
 	rawQuery := string(input)
 
+	fmt.Println("rawQuery", rawQuery)
+
 	// if string contains users -- make it
 	// orgs
-	if strings.Contains(rawQuery, "users") {
-		rawQuery = strings.Replace(rawQuery, "users", "orgs", -1)
-	}
+	//if strings.Contains(rawQuery, "users") {
+	//	rawQuery = strings.Replace(rawQuery, "users", "orgs", -1)
+	//}
 
 	stmt, err := parser.Parse(rawQuery)
 	if err != nil {

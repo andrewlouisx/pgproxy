@@ -129,6 +129,26 @@ func (p *Proxy) service(handler Handler) {
 	<-p.errsig
 }
 
+var statementCodes = map[string]interface{}{
+	"Q": nil,
+	"P": nil,
+}
+
+func isStatement(input string) bool {
+	if _, ok := statementCodes[string(input[0])]; ok {
+		return true
+	}
+
+	return false
+}
+
+const (
+	// Query - Query message.
+	Query = 'Q'
+	// Bind
+	Bind = 'P'
+)
+
 // Proxy.handleIncomingConnection
 func (p *Proxy) handleIncomingConnection(src, dst *net.TCPConn, customHandler Handler) {
 	// directional copy (64k buffer)
@@ -143,7 +163,9 @@ func (p *Proxy) handleIncomingConnection(src, dst *net.TCPConn, customHandler Ha
 
 		bufff := buff[:n]
 
-		if len(bufff) > 0 && string(bufff[0]) == "Q" {
+		// if string(buff[0]) is P or Q - we recognize
+		// as a query
+		if len(bufff) > 0 && isStatement(string(bufff[0])) {
 			b, err := handleQuery(bufff, customHandler)
 			if err != nil {
 				p.err("%s\n", err)
@@ -188,6 +210,9 @@ func (p *Proxy) handleResponseConnection(src, dst *net.TCPConn) {
 // query here is somewhat general -- SQL statements are all queries;
 // see https://www.postgresql.org/docs/13/protocol-message-formats.html
 func handleQuery(input []byte, requestHandler Handler) ([]byte, error) {
+	fmt.Println("----Request Received------")
+	fmt.Println(string(input))
+
 	if len(input) > 0 && string(input[0]) == "Q" {
 		// TODO: ";", "0" characters should be handled idiomatically
 
