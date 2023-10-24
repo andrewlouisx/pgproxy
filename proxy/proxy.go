@@ -141,17 +141,23 @@ func (p *Proxy) handleIncomingConnection(src, dst *net.TCPConn, customHandler Ha
 			return
 		}
 
-		b, err := handleQuery(buff[:n], customHandler)
-		if err != nil {
-			p.err("%s\n", err)
-			err = dst.Close()
+		bufff := buff[:n]
+
+		if len(bufff) > 0 && string(bufff[0]) == "Q" {
+			b, err := handleQuery(bufff, customHandler)
 			if err != nil {
-				glog.Errorln(err)
+				p.err("%s\n", err)
+				err = dst.Close()
+				if err != nil {
+					glog.Errorln(err)
+				}
+				return
 			}
-			return
+
+			bufff = b
 		}
 
-		_, err = dst.Write(b)
+		_, err = dst.Write(bufff)
 		if err != nil {
 			p.err("Write failed '%s'\n", err)
 			return
